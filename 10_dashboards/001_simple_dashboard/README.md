@@ -99,7 +99,11 @@ def category_dropdown(options):
         ),
     ])
 ```
-
+ここで初めて
+- コンポーネント：dcc.Dropdown(...)
+- id："category-dropdown"
+- 値が入るプロパティ：value（ドロップダウンの選択値）
+が定義されます。
 ------------------------------------------------------------------------
 
 ### sales_summary.py（グラフ）
@@ -118,7 +122,11 @@ def create_sales_bar(df: pd.DataFrame):
     )
     return dcc.Graph(id="bar-sales", figure=fig)
 ```
-
+ここでは
+- コンポーネント：dcc.Graph(...)
+- id："bar-sales"
+- 図が入るプロパティ：figure
+が定義されます。
 ------------------------------------------------------------------------
 
 ## 2. コールバック（どことどこが連動するか）
@@ -152,26 +160,75 @@ def update_sales_graph(selected_category):
     )
     return fig
 ```
+ここでの対応関係をはっきり書くと：
 
+Input 側
+- コンポーネント：id="category-dropdown"（controls.py で定義）
+- プロパティ：value
+- これが変わるたびに → update_sales_graph() が呼び出される
+- その時の値がそのまま selected_category に入る
+
+Output 側
+- コンポーネント：id="bar-sales"（sales_summary.py で定義）
+- プロパティ：figure
+- update_sales_graph() が返した fig が、そのまま bar-sales.figure にセットされる
 ------------------------------------------------------------------------
+## 3. 実際の「一連の流れ」を時系列で追う
 
-## 3. 時系列での処理
+### ① サーバ起動時
 
-### サーバ起動時
+- app.py を実行
+- `from dashboards.layout import serve_layout` で layout.py が読み込まれる  
+  → serve_layout という関数が登録されるだけ（まだ実行されない）
 
-1.  layout.py が読み込まれ、serve_layout が登録される\
-2.  callbacks.py が読み込まれ、@callback が Dash に登録される
+- `import dashboards.callbacks` で callbacks.py が読み込まれる  
+  → @callback(...) が実行され、  
+    「category-dropdown.value が変わったら update_sales_graph で bar-sales.figure を更新する」  
+    というルールだけが Dash に登録される
 
-### ブラウザアクセス時
 
--   serve_layout() が実行され、画面構造が生成される\
--   Dropdown / Graph に id が付与され描画される
+---
 
-### ユーザー操作時
+### ② ブラウザがページにアクセスしたとき
 
--   category-dropdown.value が変化\
--   Dash が callback を呼び出す\
--   bar-sales.figure が更新され、グラフが描き変わる
+- ブラウザがアクセスすると、Dash が `app.layout` を評価する
+- `app.layout = serve_layout` なので **serve_layout() が実行される**
+
+serve_layout() 内で以下が行われる：
+
+- `category_dropdown(...)` が呼ばれ、id="category-dropdown" の Dropdown が生成される  
+- `create_sales_bar(df)` が呼ばれ、id="bar-sales" の Graph が生成される  
+- それらを `html.Div([...])` に詰めたレイアウトオブジェクトが返る
+
+その後 Dash は：
+
+- レイアウト情報を JSON に変換してブラウザに送信
+- ブラウザ側の Dash/React がその JSON を基に HTML として描画
+
+---
+
+### ③ ユーザーがドロップダウンを操作したとき
+
+1. ユーザーが category-dropdown の選択肢を変更  
+2. ブラウザ側で `category-dropdown.value` が更新  
+3. ブラウザが Dash サーバへ  
+   「category-dropdown.value がこれに変わったよ」  
+   という JSON を送信
+
+サーバ側の Dash は：
+
+4. 「この Input に反応する callback がある」と判断  
+5. `update_sales_graph(selected_category)` を呼び出す  
+   - JSON の値がそのまま `selected_category` に入る
+
+6. update_sales_graph が fig を return  
+7. Dash がその fig を  
+   「Output で指定されていた bar-sales.figure にセットすればいい」  
+   と判断
+
+8. bar-sales 用の JSON を更新しブラウザに返す  
+9. ブラウザ側で `dcc.Graph(id="bar-sales")` の中身が更新される  
+10. グラフがリアルタイムで描き変わる
 
 ------------------------------------------------------------------------
 
