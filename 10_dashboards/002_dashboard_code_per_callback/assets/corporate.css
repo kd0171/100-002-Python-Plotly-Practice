@@ -1,0 +1,37 @@
+/* ===== Corporate Standard Button ===== */
+
+.corp-btn {
+    background-color: #004a8f;   /* corporate blue */
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.corp-btn:hover {
+    background-color: #0060c1;
+}
+
+.corp-btn:active {
+    background-color: #00386a;
+}
+
+.corp-btn:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* ===== Layout helpers ===== */
+.corp-container {
+    margin: 20px;
+}
+
+.corp-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
