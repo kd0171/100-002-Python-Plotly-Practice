@@ -1,0 +1,58 @@
+purchase_date,sales_date,category,product,sales,quantity,region,company
+2025-01-09,2025-01-12,Fruits,Orange,11400,182,South,Company B
+2025-01-04,2025-01-04,Dairy,Milk,17500,310,West,Company A
+2025-01-03,2025-01-06,Vegetables,Potato,4600,120,North,Company C
+2025-01-07,2025-01-10,Fruits,Apple,9800,140,East,Company C
+2025-01-05,2025-01-09,Dairy,Cheese,12300,95,South,Company B
+
+2025-01-11,2025-01-12,Vegetables,Tomato,6200,88,West,Company C
+2025-01-02,2025-01-05,Fruits,Banana,8400,173,North,Company A
+2025-01-15,2025-01-18,Fruits,Apple,15000,190,East,Company B
+
+2025-01-10,2025-01-13,Dairy,Milk,16050,322,South,Company C
+2025-01-09,2025-01-10,Vegetables,Potato,5200,110,North,Company A
+2025-01-14,2025-01-16,Fruits,Orange,9200,136,West,Company B
+2025-01-12,2025-01-13,Fruits,Banana,7900,166,East,Company B
+2025-01-16,2025-01-21,Dairy,Cheese,9100,75,West,Company C
+2025-01-05,2025-01-08,Fruits,Apple,14200,185,South,Company A
+
+2025-01-08,2025-01-09,Fruits,Orange,9900,149,East,Company B
+2025-01-06,2025-01-08,Vegetables,Tomato,5700,90,South,Company A
+2025-01-18,2025-01-18,Dairy,Milk,17200,340,North,Company C
+2025-01-01,2025-01-02,Dairy,Cheese,8900,68,East,Company A
+
+2025-01-17,2025-01-20,Fruits,Apple,12850,170,West,Company C
+2025-01-13,2025-01-13,Vegetables,Potato,4800,125,North,Company B
+2025-01-08,2025-01-10,Vegetables,Tomato,6050,98,East,Company B
+2025-01-04,2025-01-07,Fruits,Banana,8700,195,South,Company A
+
+2025-01-11,2025-01-14,Dairy,Milk,16900,315,South,Company A
+2025-01-06,2025-01-06,Fruits,Orange,10400,160,West,Company C
+2025-01-13,2025-01-13,Fruits,Apple,12000,150,East,Company B
+2025-01-18,2025-01-25,Vegetables,Tomato,5900,95,North,Company C
+2025-01-09,2025-01-09,Dairy,Cheese,10150,89,West,Company B
+
+2025-01-02,2025-01-04,Fruits,Apple,14500,182,South,Company A
+2025-01-14,2025-01-16,Fruits,Banana,9000,172,East,Company C
+2025-01-17,2025-01-19,Vegetables,Potato,5300,134,North,Company B
+2025-01-08,2025-01-08,Dairy,Milk,15800,330,West,Company C
+
+2025-01-19,2025-01-22,Fruits,Orange,9600,147,East,Company A
+2025-01-03,2025-01-05,Fruits,Apple,13900,168,South,Company B
+2025-01-07,2025-01-09,Vegetables,Tomato,6250,105,West,Company C
+2025-01-08,2025-01-11,Dairy,Cheese,9750,78,North,Company A
+
+2025-01-05,2025-01-06,Dairy,Milk,16500,345,North,Company B
+2025-01-20,2025-01-22,Vegetables,Potato,4600,118,South,Company A
+2025-01-12,2025-01-14,Fruits,Orange,10250,158,West,Company C
+2025-01-16,2025-01-18,Fruits,Banana,8100,180,East,Company B
+
+2025-01-10,2025-01-12,Fruits,Apple,15050,190,South,Company C
+2025-01-02,2025-01-03,Fruits,Orange,9300,138,North,Company B
+2025-01-04,2025-01-04,Vegetables,Tomato,6400,112,West,Company A
+2025-01-09,2025-01-10,Dairy,Cheese,10850,84,East,Company C
+2025-01-18,2025-01-24,Fruits,Banana,7700,160,South,Company B
+
+2025-01-11,2025-01-13,Vegetables,Tomato,5500,88,East,Company A
+2025-01-06,2025-01-08,Fruits,Apple,12400,165,West,Company C
+2025-01-14,2025-01-15,Dairy,Milk,17800,355,South,Company B
