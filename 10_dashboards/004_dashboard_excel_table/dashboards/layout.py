@@ -1,6 +1,7 @@
 # dashboards/layout.py
 
 import os
+import dash  # ★ 追加
 import pandas as pd
 from dash import html, dash_table, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
@@ -77,7 +78,15 @@ def serve_layout():
                             ),
                             html.Div(
                                 [
-                                    html.Label("チェックした値だけ表示"),
+                                    # ★ 全選択 / 全解除ボタンを追加
+                                    dbc.Button(
+                                        "全選択 / 全解除",
+                                        id="apple-select-all",
+                                        size="sm",
+                                        color="secondary",
+                                        outline=True,
+                                        className="mb-2",
+                                    ),
                                     dcc.Checklist(
                                         id="apple-checklist",
                                         options=[
@@ -140,22 +149,51 @@ def toggle_apple_modal(open_click, close_click, is_open):
     return is_open
 
 
-# ========== 2. 検索テキストでチェック候補を絞り込む ==========
+# ========== 2. 検索テキスト & 全選択ボタンでチェック候補/値を制御 ==========
 @callback(
     Output("apple-checklist", "options"),
     Output("apple-checklist", "value"),
     Input("apple-search", "value"),
+    Input("apple-select-all", "n_clicks"),
+    State("apple-checklist", "options"),
     State("apple-checklist", "value"),
 )
-def filter_apple_checklist(search_text, current_values):
+def filter_apple_checklist(search_text, select_all_clicks, current_options, current_values):
     """
-    検索欄に入力した文字列を含む値だけを候補として残す。
-    すでにチェック済みの値のうち、候補に残っているものだけ value に維持する。
+    - 検索: 表示されるチェックボックスの候補だけを絞り込む（value は触らない）
+    - 全選択 / 全解除ボタン:
+        - 現在「表示されている候補」だけ対象
+        - まだ全部選ばれていなければ「全選択」
+        - すでに全部選ばれていれば「全解除」
     """
+    ctx = dash.callback_context
+    triggered_id = ctx.triggered[0]["prop_id"].split(".")[0] if ctx.triggered else None
+
+    # 安全側初期化
     if current_values is None:
         current_values = []
 
-    # 検索なしなら全候補
+    # options がまだ無い（初回など）のときは全候補
+    if current_options is None or len(current_options) == 0:
+        current_options = [{"label": str(v), "value": v} for v in APPLE_ALL_VALUES]
+
+    # ===== 1. 「全選択 / 全解除」ボタンが押された場合 =====
+    if triggered_id == "apple-select-all":
+        # 現在表示されている候補だけ対象
+        visible_values = [opt["value"] for opt in current_options]
+
+        # 「表示されている候補すべて」がすでに選ばれていれば → それらだけ解除
+        if set(visible_values).issubset(set(current_values)) and len(visible_values) > 0:
+            new_values = [v for v in current_values if v not in visible_values]
+        else:
+            # まだ全部選ばれていない → 表示候補をすべて追加（他の選択はそのまま残す）
+            new_values = list(set(current_values) | set(visible_values))
+
+        # options は変えず、value だけ更新
+        return current_options, new_values
+
+    # ===== 2. 検索欄が変更された場合 (apple-search) =====
+    # ここでは「表示候補」だけを変える。チェック状態 (value) は一切いじらない。
     if not search_text:
         filtered = APPLE_ALL_VALUES
     else:
@@ -163,9 +201,14 @@ def filter_apple_checklist(search_text, current_values):
         filtered = [v for v in APPLE_ALL_VALUES if s in str(v)]
 
     options = [{"label": str(v), "value": v} for v in filtered]
-    new_values = [v for v in current_values if v in filtered]
+
+    # ★ ここが重要：
+    # 以前は `current_values` を filtered に含まれるものだけに縮めていたが、
+    # いまは「チェック状態は検索の影響を受けない」仕様なのでそのまま返す。
+    new_values = current_values
 
     return options, new_values
+
 
 
 # ========== 3. チェックされた値でテーブルを絞り込む ==========
