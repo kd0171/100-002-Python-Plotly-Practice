@@ -6,6 +6,7 @@ from utils.columns_config import COLUMNS
 from utils.columns_styles import style_cell_conditional
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "database" / "test_output_20000.csv"
+# DATA_PATH = Path(__file__).resolve().parents[1] / "database" / "test_output_200000.csv"
 test_df = pd.read_csv(DATA_PATH)
 
 table_layout = html.Div(

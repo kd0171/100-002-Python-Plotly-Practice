@@ -1,10 +1,8 @@
-# components/filters/product1_checklist.py
 from dash import html, dcc
 from components.table_component import test_df
 
 
 def product1_checklist():
-    # product_1 列があればそこをフィルタ対象にする
     if "product_1" in test_df.columns:
         options = [
             {"label": str(val), "value": str(val)}

@@ -11,8 +11,8 @@ from config import COLUMN_DEFINITIONS
 # -----------------------------------------
 # 出力設定（ユーザーが変える部分）
 # -----------------------------------------
-OUTPUT_FILENAME = "test_output_20000.csv"
-OUTPUT_ROWS = 20000  # 生成したい行数
+OUTPUT_FILENAME = "test_output_200000.csv"
+OUTPUT_ROWS = 200000  # 生成したい行数
 
 # -----------------------------------------
 # ディレクトリ設定

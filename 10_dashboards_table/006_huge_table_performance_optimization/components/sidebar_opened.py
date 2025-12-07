@@ -2,6 +2,10 @@ from dash import html
 import dash_bootstrap_components as dbc
 
 from components.filters.product1_checklist import product1_checklist
+from components.filters.product2_checklist import product2_checklist
+from components.filters.mixed1_checklist import mixed1_checklist
+from components.filters.quantity1_slider import quantity1_slider
+from components.filters.date_range_slider import date_range_slider
 
 
 sidebar_opened = html.Div(
@@ -16,6 +20,18 @@ sidebar_opened = html.Div(
         html.Div(
             [
                 html.H6("FILTERED BY", className="mt-4"),
+
+                # --- Apply Filters ボタン ---
+                html.Div(
+                    dbc.Button(
+                        "Apply Filters",
+                        id="apply-filters-btn",
+                        color="primary",
+                        className="mt-3",
+                        style={"width": "100%"},
+                    ),
+                    style={"marginTop": "16px"},
+                ),
 
                 # product_1
                 html.Div(
@@ -36,7 +52,81 @@ sidebar_opened = html.Div(
                     ]
                 ),
 
+                # product_2
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Span("product_2", className="filter-title"),
+                                html.Span("▼", className="filter-icon"),
+                            ],
+                            id="toggle-product2",
+                            className="filter-toggle",
+                        ),
+                        dbc.Collapse(
+                            product2_checklist(),
+                            id="collapse-product2",
+                            is_open=False,
+                        ),
+                    ]
+                ),
+
+                # mixed_1
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Span("mixed_1", className="filter-title"),
+                                html.Span("▼", className="filter-icon"),
+                            ],
+                            id="toggle-mixed1",
+                            className="filter-toggle",
+                        ),
+                        dbc.Collapse(
+                            mixed1_checklist(),
+                            id="collapse-mixed1",
+                            is_open=False,
+                        ),
+                    ]
+                ),
                 # ここに今後フィルターを追加していく
+                # quantity_1 range
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Span("quantity_1", className="filter-title"),
+                                html.Span("▼", className="filter-icon"),
+                            ],
+                            id="toggle-quantity1",
+                            className="filter-toggle",
+                        ),
+                        dbc.Collapse(
+                            quantity1_slider(),
+                            id="collapse-quantity1",
+                            is_open=False,
+                        ),
+                    ]
+                ),
+
+                # date range
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Span("date", className="filter-title"),
+                                html.Span("▼", className="filter-icon"),
+                            ],
+                            id="toggle-date",
+                            className="filter-toggle",
+                        ),
+                        dbc.Collapse(
+                            date_range_slider(),
+                            id="collapse-date",
+                            is_open=False,
+                        ),
+                    ]
+                ),
             ],
             className="sidebar-content",
             style={

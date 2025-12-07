@@ -65,6 +65,9 @@ app.layout = html.Div(
         #     },
         # ),
 
+        # フィルタ編集用（Apply 押すまでのドラフト）
+        dcc.Store(id="filters-draft", storage_type="memory"),
+        # 実際にテーブルに効く確定済みフィルタ
         dcc.Store(id="filters-state", storage_type="memory"),
     ]
     # ⚠ ここでは style を付けない（ページ送りが隠れないように）

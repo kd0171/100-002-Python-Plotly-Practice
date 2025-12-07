@@ -1,53 +1,41 @@
-# callbacks/apply_filters.py
-from dash import Input, Output
+from dash import Input, Output, State
 from components.table_component import test_df
+from utils.filtering import apply_all_filters
 
 
 def register_apply_filters(app):
 
+    # ① Apply ボタン：draft → state
+    @app.callback(
+        Output("filters-state", "data"),
+        Input("apply-filters-btn", "n_clicks"),
+        State("filters-draft", "data"),
+        prevent_initial_call=True
+    )
+    def commit_filters(n, draft):
+        return draft or {}
+
+    # ② table 更新（確定済みの filters-state を使用）
     @app.callback(
         Output("table", "data"),
-        Input("filters-state", "data"),     # サイドバーのフィルタ状態
-        Input("table", "page_current"),     # ページ番号
-        Input("table", "page_size"),        # 1ページの行数
-        Input("table", "sort_by"),          # ソート条件（custom）
+        Input("filters-state", "data"),
+        Input("table", "page_current"),
+        Input("table", "page_size"),
+        Input("table", "sort_by"),
     )
     def apply_filters(state, page_current, page_size, sort_by):
+        df = apply_all_filters(state)
 
-        # ------------- 元データ -------------
-        df = test_df.copy()
-
-        # ------------- サイドバーのフィルター適用 -------------
-        if state:
-            filter_map = {
-                "product1": "product_1",
-            }
-
-            for key, col in filter_map.items():
-                if col not in df.columns:
-                    continue
-
-                val = state.get(key)
-                if val in (None, "", "all", []):
-                    continue
-
-                if isinstance(val, list):
-                    df = df[df[col].astype(str).isin([str(v) for v in val])]
-                else:
-                    df = df[df[col].astype(str) == str(val)]
-
-        # ------------- ソート（custom）-------------
+        # sort / paging
         if sort_by:
             df = df.sort_values(
                 [s["column_id"] for s in sort_by],
                 ascending=[s["direction"] == "asc" for s in sort_by],
             )
 
-        # ------------- ページング（custom）-------------
         page_current = page_current or 0
         page_size = page_size or 100
-
         start = page_current * page_size
-        end = (page_current + 1) * page_size
+        end = start + page_size
 
         return df.iloc[start:end].to_dict("records")
