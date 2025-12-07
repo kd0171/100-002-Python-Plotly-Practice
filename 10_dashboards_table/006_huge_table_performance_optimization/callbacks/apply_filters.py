@@ -7,19 +7,20 @@ def register_apply_filters(app):
 
     @app.callback(
         Output("table", "data"),
-        Input("filters-state", "data"),   # サイドバーのフィルタ状態
+        Input("filters-state", "data"),     # サイドバーのフィルタ状態
+        Input("table", "page_current"),     # ページ番号
+        Input("table", "page_size"),        # 1ページの行数
+        Input("table", "sort_by"),          # ソート条件（custom）
     )
-    def apply_filters(state):
+    def apply_filters(state, page_current, page_size, sort_by):
 
-        # フィルタのたびに元データからやり直したいので copy()
+        # ------------- 元データ -------------
         df = test_df.copy()
 
         # ------------- サイドバーのフィルター適用 -------------
         if state:
-            # 今は product_1 のみ。増やす場合はこの map に追加
             filter_map = {
                 "product1": "product_1",
-                # "quantity1": "quantity_1", など
             }
 
             for key, col in filter_map.items():
@@ -35,6 +36,18 @@ def register_apply_filters(app):
                 else:
                     df = df[df[col].astype(str) == str(val)]
 
-        # ------------- ページングはしない！ -------------
-        # DataTable (page_action="native") が中で自動的にページングする
-        return df.to_dict("records")
+        # ------------- ソート（custom）-------------
+        if sort_by:
+            df = df.sort_values(
+                [s["column_id"] for s in sort_by],
+                ascending=[s["direction"] == "asc" for s in sort_by],
+            )
+
+        # ------------- ページング（custom）-------------
+        page_current = page_current or 0
+        page_size = page_size or 100
+
+        start = page_current * page_size
+        end = (page_current + 1) * page_size
+
+        return df.iloc[start:end].to_dict("records")

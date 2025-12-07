@@ -6,8 +6,7 @@ from callbacks.filters.product1_filter_callbacks import (
 from callbacks.apply_filters import register_apply_filters
 from callbacks.collapse_callbacks import register_collapse_callbacks
 
-
-def register_all_callbacks(app):
+def register_all_callbacks(app):    
 
     # product_1 フィルター
     register_product1_filter(app)

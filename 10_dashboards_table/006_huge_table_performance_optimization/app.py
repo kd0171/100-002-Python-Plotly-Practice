@@ -8,6 +8,7 @@ from components.table_component import table_layout
 from components.sidebar_closed import sidebar_closed
 from components.sidebar_opened import sidebar_opened
 
+from callbacks.table_callbacks import register_table_callbacks
 from callbacks.sidebar_callbacks import register_sidebar_callbacks
 from callbacks.register_callbacks import register_all_callbacks
 from utils import constants
@@ -20,6 +21,7 @@ app = Dash(
     suppress_callback_exceptions=True,
 )
 
+# register_table_callbacks(app)
 # サイドバー開閉用コールバック
 register_sidebar_callbacks(app)
 # フィルタ・テーブル更新用コールバック
