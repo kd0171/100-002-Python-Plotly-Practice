@@ -1,0 +1,9 @@
+/* DataTable のラッパーを画面幅いっぱいに広げる */
+.dash-table-container {
+    width: 100% !important;
+}
+
+/* 内側の spreadsheet 部分も 100% にしておくとさらに安定 */
+.dash-spreadsheet-container .dash-spreadsheet-inner {
+    width: 100% !important;
+}

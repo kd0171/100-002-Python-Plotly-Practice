@@ -31,10 +31,30 @@ table_layout = html.Div(
 
             virtualization=False,
 
+            # ---- header固定 ----
+            fixed_rows={"headers": True},
+            fixed_columns={"headers": True, "data": 3},
+
+                # ★ ここを追加 or 修正
+            css=[
+                {
+                    "selector": ".dash-table-container",
+                    "rule": "width: 100% !important; margin: 0; padding: 0;",
+                },
+                {
+                    "selector": ".dash-spreadsheet-container .dash-spreadsheet-inner",
+                    "rule": "width: 100% !important;",
+                },
+            ],
+
             style_table={
                 "overflowY": "auto",
                 "overflowX": "auto",
-                "maxHeight": "70vh",
+                # ★これが一番重要、これをするとテーブルの大きさを変えられる
+                "maxHeight": "80vh",
+                "height": "80vh",   # ← 固定高さにする
+                "maxWidth": "100%",
+                "width": "100%",    # ← ★これを追加
             },
             style_header={
                 "backgroundColor": "#003963",
@@ -55,10 +75,13 @@ table_layout = html.Div(
                 "backgroundColor": "#f2f2f2",
                 "color": "#333",
                 "minWidth": "140px",
+                "width": "140px",      # ← 追加
+                "maxWidth": "140px",   # ← 追加
                 "padding": "8px",
                 "fontSize": "12px",
             },
             style_cell_conditional=style_cell_conditional,
         ),
-    ]
+    ],
+    style={"width": "100%"}   # これを付ける
 )

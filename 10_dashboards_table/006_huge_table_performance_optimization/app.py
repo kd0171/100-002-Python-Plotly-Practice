@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 
 from components.header import header_product1
 from components.table_component import table_layout
+# from components.table_component_test import table_layout_test as table_layout
 from components.sidebar_closed import sidebar_closed
 from components.sidebar_opened import sidebar_opened
 
@@ -27,13 +28,12 @@ register_sidebar_callbacks(app)
 # フィルタ・テーブル更新用コールバック
 register_all_callbacks(app)
 
-
 app.layout = html.Div(
     [
         # ヘッダー
         html.Div(
             header_product1,
-            style={"margin-bottom": "2%"},
+            style={"margin-bottom": "2%", "flex": "0 0 auto"},
         ),
 
         # サイドバー（閉じた状態 + 開いた状態）
@@ -41,9 +41,11 @@ app.layout = html.Div(
             [
                 sidebar_closed,
                 sidebar_opened,
-            ]
+            ],
+            style={"flex": "0 0 auto"},
         ),
 
+        # テーブル領域（残り全部を使う）
         html.Div(
             table_layout,
             id="table-area",
@@ -52,26 +54,22 @@ app.layout = html.Div(
                 "margin": "0 auto",
                 "margin-left": "140px",
                 "padding-top": "10px",
+                "flex": "1 1 auto",
+                "minHeight": "0",  # ★ flex 子要素が縮められるのを防ぐおまじない
             },
         ),
 
-        # # 👇 テスト用：画面の一番下に赤いバーを出す
-        # html.Div(
-        #     "ここが見えますか？",
-        #     style={
-        #         "height": "40px",
-        #         "backgroundColor": "red",
-        #         "color": "white",
-        #     },
-        # ),
-
-        # フィルタ編集用（Apply 押すまでのドラフト）
         dcc.Store(id="filters-draft", storage_type="memory"),
-        # 実際にテーブルに効く確定済みフィルタ
         dcc.Store(id="filters-state", storage_type="memory"),
-    ]
-    # ⚠ ここでは style を付けない（ページ送りが隠れないように）
+    ],
+    style={
+        "display": "flex",
+        "flexDirection": "column",
+        "height": "100vh",
+        "margin": 0,
+    },
 )
+
 
 
 if __name__ == "__main__":
