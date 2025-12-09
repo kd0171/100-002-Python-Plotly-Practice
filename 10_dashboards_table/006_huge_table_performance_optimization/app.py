@@ -67,7 +67,8 @@ app.layout = html.Div(
         dcc.Store(
             id="column-groups-state",
             storage_type="memory",
-            data=["meta", "products", "categories", "quantities", "mixed"],
+            # data=["meta", "products", "categories", "quantities", "mixed"],
+            data=["products", "categories", "quantities", "mixed"],
         ),
 
     ],

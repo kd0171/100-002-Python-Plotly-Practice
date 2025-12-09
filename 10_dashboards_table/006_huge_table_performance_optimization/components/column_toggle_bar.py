@@ -10,7 +10,7 @@ def column_toggle_bar():
     """
     buttons = []
     for key, label in [
-        ("meta", "Meta"),
+        # ("meta", "Meta"),
         ("products", "Products"),
         ("categories", "Categories"),
         ("quantities", "Quantities"),
