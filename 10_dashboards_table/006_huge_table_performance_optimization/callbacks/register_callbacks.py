@@ -6,6 +6,8 @@ from callbacks.filters.quantity1_filter_callbacks import register_quantity1_filt
 from callbacks.filters.date_filter_callbacks import register_date_filter
 from callbacks.collapse_callbacks import register_collapse_callbacks
 
+# テーブル表示日表示切替ボタン用
+from callbacks.column_toggle_callbacks import register_column_toggle_callbacks
 
 def register_all_callbacks(app):
     register_product1_filter(app)
@@ -17,3 +19,6 @@ def register_all_callbacks(app):
 
     register_apply_filters(app)     # テーブル本体（server-side paging + sort）
     register_collapse_callbacks(app)
+
+# テーブル表示日表示切替ボタン用
+    register_column_toggle_callbacks(app)

@@ -61,6 +61,15 @@ app.layout = html.Div(
 
         dcc.Store(id="filters-draft", storage_type="memory"),
         dcc.Store(id="filters-state", storage_type="memory"),
+
+# テーブル表示日表示切替ボタン用
+        # 列グループの表示状態（例: ["meta", "products", ...]）
+        dcc.Store(
+            id="column-groups-state",
+            storage_type="memory",
+            data=["meta", "products", "categories", "quantities", "mixed"],
+        ),
+
     ],
     style={
         "display": "flex",

@@ -5,12 +5,20 @@ from pathlib import Path
 from utils.columns_config import COLUMNS
 from utils.columns_styles import style_cell_conditional
 
+# テーブル表示日表示切替ボタン用
+from components.column_toggle_bar import column_toggle_bar
+
 DATA_PATH = Path(__file__).resolve().parents[1] / "database" / "test_output_20000.csv"
 # DATA_PATH = Path(__file__).resolve().parents[1] / "database" / "test_output_200000.csv"
 test_df = pd.read_csv(DATA_PATH)
 
 table_layout = html.Div(
     [
+
+# テーブル表示日表示切替ボタン用
+        column_toggle_bar(),
+
+
         dash_table.DataTable(
             id="table",
             data=[],  # ← 初期値は空。コールバックで入れる
@@ -33,7 +41,7 @@ table_layout = html.Div(
 
             # ---- header固定 ----
             fixed_rows={"headers": True},
-            fixed_columns={"headers": True, "data": 3},
+            fixed_columns={"headers": True, "data": 2},
 
                 # ★ ここを追加 or 修正
             css=[
@@ -45,6 +53,11 @@ table_layout = html.Div(
                     "selector": ".dash-spreadsheet-container .dash-spreadsheet-inner",
                     "rule": "width: 100% !important;",
                 },
+        # 画面左上に出る小さな Toggle Columns ボックスを消す方法
+                {
+                    "selector": ".show-hide",
+                    "rule": "display: none;",
+                }
             ],
 
             style_table={
