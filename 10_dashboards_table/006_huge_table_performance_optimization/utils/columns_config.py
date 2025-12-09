@@ -3,45 +3,44 @@
 # Dash DataTable 用の段付きヘッダー定義
 #   name: [上段, 中段, 下段]
 #   id  : DataFrame の列名と一致させる
-
 COLUMNS = [
-    # --- Meta ---
-    {"name": ["Meta", "", "ID"], "id": "id"},
-    {"name": ["Meta", "", "Date"], "id": "date"},
+    {"name": ["Meta", "", "id"],   "id": "id"},
+    {"name": ["Meta", "", "date"], "id": "date"},
 ]
 
-# --- Products (product_1〜product_9) ---  ←★ ここが 14 → 9 列に変更
-for i in range(1, 10):  # 1〜9
+# Products: product_1〜product_8
+for i in range(1, 9):
     COLUMNS.append(
-        {
-            "name": ["Products", "", f"product_{i}"],
-            "id": f"product_{i}",
-        }
+        {"name": ["Products", "", f"product_{i}"], "id": f"product_{i}"}
     )
 
-# --- Nominal Categories (category_1〜category_5) --- ←★ 新規追加
-for i in range(1, 6):  # 1〜5
+# ★ Products グループの中に review 列を追加
+COLUMNS.append(
+    {"name": ["Products", "", "review"], "id": "review"}
+)
+
+# Nominal
+for i in range(1, 6):
     COLUMNS.append(
-        {
-            "name": ["Nominal", "", f"category_{i}"],
-            "id": f"category_{i}",
-        }
+        {"name": ["Nominal", "", f"category_{i}"], "id": f"category_{i}"}
     )
 
-# --- Quantities (quantity_1〜quantity_6) ---
+# Quantities
 for i in range(1, 7):
     COLUMNS.append(
-        {
-            "name": ["Quantities", "", f"quantity_{i}"],
-            "id": f"quantity_{i}",
-        }
+        {"name": ["Quantities", "", f"quantity_{i}"], "id": f"quantity_{i}"}
     )
 
-# --- Mixed (mixed_1〜mixed_29) ---
+# Mixed
 for i in range(1, 29):
     COLUMNS.append(
-        {
-            "name": ["Mixed", "", f"mixed_{i}"],
-            "id": f"mixed_{i}",
-        }
+        {"name": ["Mixed", "", f"mixed_{i}"], "id": f"mixed_{i}"}
     )
+
+# Review グループを作る案もあり
+COLUMNS.append(
+    {"name": ["Review", "", "review"], "id": "review"}
+)
+COLUMNS.append(
+    {"name": ["Review", "", "review_cluster"], "id": "review_cluster"}
+)

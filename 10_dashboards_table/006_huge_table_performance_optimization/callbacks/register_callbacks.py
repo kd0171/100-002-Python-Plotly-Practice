@@ -9,6 +9,8 @@ from callbacks.collapse_callbacks import register_collapse_callbacks
 # テーブル表示日表示切替ボタン用
 from callbacks.column_toggle_callbacks import register_column_toggle_callbacks
 
+from callbacks.filters.review_cluster_filter_callbacks import register_review_cluster_filter
+
 def register_all_callbacks(app):
     register_product1_filter(app)
     register_product2_filter(app)
@@ -22,3 +24,5 @@ def register_all_callbacks(app):
 
 # テーブル表示日表示切替ボタン用
     register_column_toggle_callbacks(app)
+
+    register_review_cluster_filter(app)   # ★ 追加

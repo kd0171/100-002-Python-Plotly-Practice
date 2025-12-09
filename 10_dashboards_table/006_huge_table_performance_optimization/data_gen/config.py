@@ -21,16 +21,47 @@ DATE_COLUMN = {
     "format": "%Y-%m-%d",            # 出力フォーマット
 }
 
-# 2〜10列目：ランダム文字列（商品系） => 9列に縮小
+# 2〜9列目：ランダム文字列（商品系） => 8列に縮小
+# ---------------------------------------------
+# 旧:
+# STRING_COLUMNS = [
+#     {
+#         "name": f"product_{i}",
+#         "type": "string_random",
+#         ...
+#     }
+#     for i in range(1, 10)            # 2〜10列 => 9列
+# ]
 STRING_COLUMNS = [
     {
         "name": f"product_{i}",
         "type": "string_random",
-        "length": 12,                # 文字列長
+        "length": 12,
         "null_prob": 0.1,
     }
-    for i in range(1, 10)            # 2〜10列 => 9列
+    for i in range(1, 9)              # 1〜8 だけ product にする
 ]
+
+# ★ 新規：レビュー用の列（短いテキスト）
+REVIEW_COLUMN = {
+    "name": "review",
+    "type": "nominal",   # 既存の nominal ロジックを流用
+    # ここに 5〜6語以内のフレーズをいくつか用意しておく
+    "choices": [
+        "high performance in cold weather",
+        "frequent minor failures reported",
+        "stable but needs maintenance",
+        "excellent fuel efficiency overall",
+        "no major issues so far",
+        "hard to install and configure",
+        "good value for daily usage",
+        "requires frequent software updates",
+        "noise level higher than expected",
+        "great support from vendor team",
+        # …必要に応じて増やす
+    ],
+    "null_prob": 0.0,
+}
 
 # 11〜15列目：名義尺度（カテゴリ列） => 5列追加
 # choices は好きなカテゴリに変更してください
@@ -83,7 +114,8 @@ COLUMN_DEFINITIONS = (
     [ID_COLUMN] +
     [DATE_COLUMN] +
     STRING_COLUMNS +
-    NOMINAL_COLUMNS +   # ★ ここで名義尺度列を挟む
+    [REVIEW_COLUMN] +  # ★ product_8 の後ろに review を挿入
+    NOMINAL_COLUMNS +
     QUANTITY_COLUMNS +
     MIXED_COLUMNS
 )

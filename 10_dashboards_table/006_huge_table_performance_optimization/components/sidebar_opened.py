@@ -6,7 +6,7 @@ from components.filters.product2_checklist import product2_checklist
 from components.filters.mixed1_checklist import mixed1_checklist
 from components.filters.quantity1_slider import quantity1_slider
 from components.filters.date_range_slider import date_range_slider
-
+from components.filters.review_cluster_checklist import review_cluster_checklist
 
 sidebar_opened = html.Div(
     [
@@ -123,6 +123,24 @@ sidebar_opened = html.Div(
                         dbc.Collapse(
                             date_range_slider(),
                             id="collapse-date",
+                            is_open=False,
+                        ),
+                    ]
+                ),
+                # review cluster
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Span("Review Cluster", className="filter-title"),
+                                html.Span("▼", className="filter-icon"),
+                            ],
+                            id="toggle-review-cluster",
+                            className="filter-toggle",
+                        ),
+                        dbc.Collapse(
+                            review_cluster_checklist(),
+                            id="collapse-review-cluster",
                             is_open=False,
                         ),
                     ]

@@ -53,3 +53,13 @@ def register_collapse_callbacks(app):
     )
     def toggle_date(n, is_open):
         return not is_open
+
+    # ---------- review_cluster ----------
+    @app.callback(
+        Output("collapse-review-cluster", "is_open"),
+        Input("toggle-review-cluster", "n_clicks"),
+        State("collapse-review-cluster", "is_open"),
+        prevent_initial_call=True,
+    )
+    def toggle_review_cluster(n, is_open):
+        return not is_open
